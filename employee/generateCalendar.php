@@ -1,0 +1,73 @@
+<?php
+function generateCalendarDate($year,$month,$i,$data,$holiday){
+    $month = $month < 10?"0".$month : $month;
+    $date = $i < 10?"0".$i : $i;
+    if($i == 0)
+        echo "
+            <div class='alert alert-light date'></div>    
+        ";
+        
+    // Check for holidays
+    else if(date("w",strtotime(date($year . "-" . $month . "-" .$i))) == 0){
+        echo "
+            <div class='alert alert-primary date'>
+                <h3>$i</h3>
+                <h5>Holiday</h5>
+            </div>    
+        ";
+    }
+
+    else if(isset($holiday["$year-$month-$date"])){
+        $reason = $holiday["$year-$month-$date"];
+        echo "
+            <div class='alert alert-primary date'>
+                <h3>$i</h3>
+                <h5>$reason</h5>
+            </div>    
+        ";
+    }
+
+    else if (isset($data[$i])) {
+        $check_in = substr((string) ($data[$i]->check_in), 0, 5);
+        $check_out = substr((string) ($data[$i]->check_out), 0, 5) == "00:00" ? "null" : substr((string) ($data[$i]->check_out), 0, 5);
+
+        // Checked In But not Checked Out
+        if ($check_out == "null"){
+            echo "
+                <form action='../check_out/index.php' method='POST' class='alert alert-success date'>
+                    <h3>$i</h3>
+                    <h5 style='width:100%;text-align:center'>$check_in : <button class='btn btn-light check_in_out' type='submit'>LOG OFF</button></h5>
+                         
+                </form>
+                ";
+        }
+        // Checked In and Out
+        else
+            echo "
+                <div class='alert alert-success date'>
+                    <h3>$i</h3>
+                    <h5>$check_in : $check_out</h5>
+                </div>
+            ";
+    }
+
+    // Not Checked In
+    else if ($month == date("m") && $year == date("Y") && $i == (int) date("d")){
+        echo "
+            <form action='../check_in/index.php' method='POST' class='alert alert-info date'>
+                <h3>$i</h3>
+                <button class='btn btn-light' type='submit'>LOG IN</button>                            
+            </form>
+        ";
+    }
+
+    // Future dates
+    else if ($month > date("m") || $year > date("Y") || ($month == date("m") && $year == date("Y") && $i > (int) date("d")))
+        echo "<div class='alert alert-light date'>$i</div>";
+
+    // Absent dates
+    else
+        echo "<div class='alert alert-danger date'>$i</div>";
+}
+
+?>
