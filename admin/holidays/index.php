@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Uploaded Document</title>
 </head>
 
 <body>
@@ -31,16 +31,24 @@
 
                 unset($rows[0]);
                 foreach ($rows as $row) {
-                    echo $row[0] . " " . $row[1];
+                    // echo $row[0] . " " . $row[1];
                     $date = date("Y-m-d", strtotime(date($row[0])));
                     $sql = "INSERT INTO company_holidays VALUES('$date','$row[1]')";
                     $result = mysqli_query($con, $sql);
                 }
+                echo "<div class='container has-text-centered pt-6'>
+                    <h1 class='title is-1 has-text-primary'>Data uploaded successfully!</h1>
+                    </div>";
             } else {
-                echo "Error uploading file.";
+                echo "<div class='container has-text-centered pt-6'>
+                    <h1 class='title is-1 has-text-danger'>Data upload unsuccessful.</h1>
+                    </div>";
             }
+
         } else {
-            echo "File input not found.";
+            echo "<div class='container has-text-centered pt-6'>
+                    <h1 class='title is-1 has-text-danger'>File is empty!</h1>
+                    </div>";
         }
     }
     ?>

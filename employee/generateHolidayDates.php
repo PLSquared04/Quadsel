@@ -12,7 +12,7 @@ function generateHolidayDates($year, $month){
 
     $res = [];
     while($row = mysqli_fetch_array($result)){
-        $res[$row['date']] = $row["reason"];
+        $res[$row['holiday_date']] = $row["reason"];
     }
     return $res;
 }

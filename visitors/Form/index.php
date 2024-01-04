@@ -1,5 +1,7 @@
 <?php $connection = mysqli_connect('localhost', 'root', '', 'quadsel'); ?>
 <?php
+date_default_timezone_set("Asia/Calcutta");
+
 //Variables
 $name = '';
 $phone_number = '';
@@ -53,17 +55,6 @@ if (isset($_POST['submit'])) {
     $phoneErr = '';
   }
 
-  if (trim($lap_make) === '') {
-    $lapErr = 'Enter your laptop make';
-  } else {
-    $lapErr = '';
-  }
-
-  if (trim($adapt_make) === '') {
-    $adaptErr = 'Enter your adapter make';
-  } else {
-    $adaptErr = '';
-  }
 
   if (trim($address) === '') {
     $addressErr = 'Enter your permanant address';
@@ -89,20 +80,20 @@ if (isset($_POST['submit'])) {
     $check_out_Err = '';
   }
 
-  if (trim($name) !== '' && trim($phone_number) !== '' && strlen(trim($phone_number)) === 10 && trim($lap_make) !== '' && trim($adapt_make) !== '' && trim($address) !== '' && trim($purpose_of_visit) !== '' && $profile_photo_link !== '' && $check_out !== '') {
+  if (trim($name) !== '' && trim($phone_number) !== '' && strlen(trim($phone_number)) === 10 && trim($address) !== '' && trim($purpose_of_visit) !== '' && $profile_photo_link !== '' && $check_out !== '') {
     $date = Date('Y-m-d');
-    date_default_timezone_set("Asia/Calcutta");
-    $time = Date('H-i-s a');
+    $time = Date('H-i');
 
     if (!$connection) {
       die('Connection Error' . mysqli_connect_error());
     } else {
-      $sql = "INSERT INTO visitor_details(Visitor_Name,Phone_number,Purpose_of_visit,From_Address,Type,Today_Date,Check_in,Check_out,Mode_of_transport,Lap_make,Adapt_make,Profile_photo_link) VALUES('$name','$phone_number','$purpose_of_visit','$address','$type','$date','$time','$check_out','$mode_of_transport','$lap_make','$adapt_make','$profile_photo_link')";
+      $sql = "INSERT INTO visitors_details(Visitor_Name,Phone_number,Purpose_of_visit,From_Address,Type,Today_Date,Check_in,Check_out,Mode_of_transport,Lap_make,Adapt_make,Profile_photo_link) VALUES('$name','$phone_number','$purpose_of_visit','$address','$type','$date','$time','$check_out','$mode_of_transport','$lap_make','$adapt_make','$profile_photo_link')";
       $result = mysqli_query($connection, $sql);
       if ($result !== false) {
-        echo "<div class='notification is-success SignUp-Success'>Succesfully created </div>";
+        echo "<div class='notification is-success SignUp-Success'>Succesfully created</div>";
+        header("Location: ../../");
       } else {
-        echo "<div class='notification is-danger SignUp-Success'>Succesfully created </div>";
+        echo "<div class='notification is-danger SignUp-Success'>Unsuccessful!</div>";
       }
     }
   }
@@ -171,8 +162,8 @@ if (isset($_POST['submit'])) {
 
         <div class="Visitor-Form-div-3">
           <div class="Visitor-Form-Time">
-            <label for="">Check-out Time:</label>
-            <input type="time" id='time' name="check_out" value='<?php echo $check_out ?>'>
+            <label for="">Estimated Check-out Time:</label>
+            <input type="time" id='time' name="check_out" value='<?php echo $check_out ?>' min=<?php echo date("H:i");  ?>>
             <span id='time_Err'>
               <?php echo $check_out_Err ?>
             </span>
@@ -182,18 +173,12 @@ if (isset($_POST['submit'])) {
             <label for="">Laptop Make:</label>
             <input type="text" name="lap_make" id='lap_make' value='<?php echo $lap_make ?>'
               placeholder='Laptop Serial number' autocomplete='off'>
-            <span id='lap_make_Err'>
-              <?php echo $lapErr ?>
-            </span>
           </div>
 
           <div class="Visitor-Form-AdaptMake">
             <label for="">Adaptor Make:</label>
             <input type="text" name="adapt_make" id='adapt_make' value='<?php echo $adapt_make ?>'
               placeholder='Adapter Serial number' autocomplete='off'>
-            <span id='adapt_make_Err'>
-              <?php echo $adaptErr ?>
-            </span>
           </div>
         </div>
 

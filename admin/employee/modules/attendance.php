@@ -10,7 +10,6 @@ function view_employee_attendance($search_emp_id)
     $currentMonth = date('Y-m');
     $dateTime = DateTime::createFromFormat('Y-m', $month);
     $formattedMonth = $dateTime->format('F Y');
-
     echo "<div class='container has-text-centered pt-6'>
             <div class='columns'>
                 <div class='column is-half has-text-centered'>
@@ -27,7 +26,7 @@ function view_employee_attendance($search_emp_id)
     $stmt->bind_param("ss", $search_emp_id, $month);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($emp_id, $date, $check_in_time, $check_out_time, $email_id);
+    $stmt->bind_result($emp_id, $date, $check_in_time, $check_out_time);
     $rowCount = 0;
     if ($stmt->num_rows > 0) {
         echo "<div class='container mt-6'>

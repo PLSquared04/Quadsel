@@ -157,7 +157,7 @@ if (isset($_SESSION["emp_id"])) {
             } else if (isset($search_emp_id)) {
                 if (trim($search_emp_id) == "") {
                     echo "<div class='container has-text-centered pt-6'>
-                    <h1 class='title is-1 has-text-danger'>Email cannot be empty!</h1>
+                    <h1 class='title is-1 has-text-danger'>EMPID cannot be empty!</h1>
                     </div>";
                 } else {
                     if (isset($_POST['attendance_btn'])) {

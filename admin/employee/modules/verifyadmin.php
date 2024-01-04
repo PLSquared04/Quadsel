@@ -2,22 +2,24 @@
 function verifyadmin($pwd)
 {
     include_once '.../../../../../db_connection.php';
-    $admin_email = 'admin@email.com';
     $conn = OpenCon();
-    $query = "SELECT * FROM `login` WHERE email=?";
+    $admin_id = "BBAD01";
+    $query = "SELECT * FROM `login` WHERE emp_id=?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("s", $admin_email);
+    $stmt->bind_param("s", $admin_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($result_email, $result_password);
-    $status = false;
-    while ($stmt->fetch()) {
-        if (password_verify($pwd, $result_password)) {
-            $status = true;
+    $stmt->bind_result($emp_id, $password);
+    if ($stmt->num_rows > 0) {
+        while ($stmt->fetch()) {
+            if (password_verify($pwd, $password)) {
+                $stmt->close();
+                CloseCon($conn);
+                return true;
+            }
         }
-    }
-    $stmt->close();
-    CloseCon($conn);
-    return $status;
+        
+    }    
+    return false;
 }
 ?>

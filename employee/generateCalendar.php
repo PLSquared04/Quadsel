@@ -1,12 +1,27 @@
 <?php
-function generateCalendarDate($year,$month,$i,$data,$holiday){
+
+$total_days = 0;
+$present_days = 0;
+
+function generateCalendarDate($first_date,$year,$month,$i,$data,$holiday){
+    
     $month = $month < 10?"0".$month : $month;
     $date = $i < 10?"0".$i : $i;
+
+    // Blank spaces
     if($i == 0)
         echo "
             <div class='alert alert-light date'></div>    
         ";
-        
+
+    // Before Date of joining
+    else if($first_date != null && $first_date > $i)
+        echo "
+        <div class='alert alert-secondary date'>
+            <h3>$i</h3>
+        </div>    
+        ";
+
     // Check for holidays
     else if(date("w",strtotime(date($year . "-" . $month . "-" .$i))) == 0){
         echo "
@@ -30,7 +45,9 @@ function generateCalendarDate($year,$month,$i,$data,$holiday){
     else if (isset($data[$i])) {
         $check_in = substr((string) ($data[$i]->check_in), 0, 5);
         $check_out = substr((string) ($data[$i]->check_out), 0, 5) == "00:00" ? "null" : substr((string) ($data[$i]->check_out), 0, 5);
-
+        
+        $GLOBALS['total_days']++;
+        $GLOBALS['present_days']++;
         // Checked In But not Checked Out
         if ($check_out == "null"){
             echo "
@@ -53,6 +70,7 @@ function generateCalendarDate($year,$month,$i,$data,$holiday){
 
     // Not Checked In
     else if ($month == date("m") && $year == date("Y") && $i == (int) date("d")){
+        $GLOBALS['total_days']++;
         echo "
             <form action='../check_in/index.php' method='POST' class='alert alert-info date'>
                 <h3>$i</h3>
@@ -66,8 +84,10 @@ function generateCalendarDate($year,$month,$i,$data,$holiday){
         echo "<div class='alert alert-light date'>$i</div>";
 
     // Absent dates
-    else
+    else{
+        $GLOBALS['total_days']++;
         echo "<div class='alert alert-danger date'>$i</div>";
+    }
 }
 
 ?>

@@ -1,15 +1,16 @@
 <?php
 session_start();
 
+
 $error_msg = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $emp_id = $_POST["emp_id"];
-    $password = $_POST["password"];
+    $user_password = $_POST["password"];
     $type = $_POST["type"];
 
     if (trim($emp_id) == "")
         $error_msg = "Enter your employee_details ID";
-    else if (trim($password) == "")
+    else if (trim($user_password) == "")
         $error_msg = "Enter your Password";
     else if (trim($type) == "")
         $error_msg = "Select the type of user";
@@ -26,15 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             // output data of each row
             $row = $result->fetch_assoc();
-            if (password_verify($password, $row["password"]))
-                $error_msg = "Incorrect password";
-            else {
+            if (password_verify($user_password, $row["password"])){
                 $_SESSION["emp_id"] = $emp_id;
                 header("Location: ../");
             }
+            else
+                $error_msg = "Invalid Password";
         } else
             $error_msg = "Invalid User ID";
-        $conn->close();
+        $con->close();
     }
 }
 ?>
@@ -59,10 +60,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <form action="./index.php" method="post">
         <?php
-        if (trim($error_msg) != "")
+        if (trim($error_msg) != ""){
             echo "
                     <div class='alert alert-danger error-msg'>$error_msg</div>    
-                "
+                ";}
                 ?>
             <h3>Login</h3>
             <label for="emp_id">Employee ID</label>
@@ -78,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </section>
             <button type="submit" class="btn w-100 login-btn">Login</button>
             <a class="sign_up_page" href="../visitors/SignUp">Create an account</a>
+            <a class="sign_up_page" href="../visitors/Form">Just Visiting?</a>
         </form>
         </div>
     </body>

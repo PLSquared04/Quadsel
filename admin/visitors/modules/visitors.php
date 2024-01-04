@@ -46,15 +46,15 @@ function view_visitors_details($date)
     </div>";
         while ($stmt->fetch()) {
             $bg = '';
-            if ($Type == 'intern') {
+            if ($Type == 'Intern') {
                 $bg = 'link-light';
-            } else if ($Type == 'guest') {
+            } else if ($Type == 'Guest') {
                 $bg = 'primary';
-            } else if ($Type == 'service') {
+            } else if ($Type == 'Service') {
                 $bg = 'warning';
             }
             echo "
-                <div class='container mt-6 mb-6'>
+            <div class='container mt-6 mb-6'>
             <div class='box has-background-$bg p-0 m-0'>
                 <div class='columns'>
                     <div class='column is-one-fifths'>
@@ -78,8 +78,8 @@ function view_visitors_details($date)
                         <p class='title is-5'>Check Out Time:</p>
                         <p class='subtitle is-6'>$Check_out</p>
                         <p class='title is-5'>Lap & Adap Make:</p>
-                        <p class='subtitle is-6'> $Lap_make & 
-                        $Adapt_make</p>
+                        <p class='subtitle is-6'> $Lap_make &
+                            $Adapt_make</p>
                         <p class='title is-5'>Mode of Transport:</p>
                         <p class='subtitle is-6'>$Mode_of_transport</p>
                     </div>

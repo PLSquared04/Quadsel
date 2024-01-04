@@ -1,7 +1,8 @@
 <?php
-// if (!isset($_SESSION["emp_id"])) {
-//   header("Location: ../login");
-// }
+session_start();
+if (!isset($_SESSION["emp_id"])) {
+  header("Location: ../login");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,7 +88,6 @@
       </table>
     </div>
     <div class="container is-flex is-centered is-justify-content-center has-text-centered  mt-6">
-
       <form action="./holidays/index.php" method="post" class="container has-text-centered"
         enctype="multipart/form-data">
         <input type="file" class="input is-info" accept=".xlsx,.xls" name="holiday_data" />
@@ -108,6 +108,8 @@
   <?php
   include_once('./charts/attendance.php');
   $analytics_data = getAttendanceData();
+  include_once('./charts/attendance.php');
+  $emp_count_data = getEmployeeCount();
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $submit_btn = filter_input(INPUT_POST, 'holiday_submit', FILTER_SANITIZE_STRING);
     if (isset($submit_btn)) {
@@ -124,7 +126,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       let date = [], emp_count = [], abs_count = [];
       try {
-        const TOTAL_EMPLOYEE_COUNT = 10;
+        const TOTAL_EMPLOYEE_COUNT = <?php echo json_encode($emp_count_data); ?>["count"];
         const data = <?php echo json_encode($analytics_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE); ?>;
         date = Object.keys(data);
         emp_count = Object.values(data);

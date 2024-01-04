@@ -120,11 +120,6 @@ html {
     margin: 0.5% 3%;
     font-size: medium;
     resize: none;
-    transition: box-shadow 0.5s;
-}
-
-.Visitor-Form-Name input:focus {
-    box-shadow: 2px 2px 2px 2px;
 }
 
 .Visitor-Form-Name label,

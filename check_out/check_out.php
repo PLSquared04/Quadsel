@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         CURLOPT_POSTFIELDS => "image1Base64=$image&image2Base64=$profile",
         CURLOPT_HTTPHEADER => [
             "X-RapidAPI-Host: face-verification2.p.rapidapi.com",
-            "X-RapidAPI-Key: 9aee385a49msh85a56c62365c7ddp118319jsncc46b663372f",
+            "X-RapidAPI-Key: 437d8536fdmsh517633e7c412eb8p144a84jsn35b3e056ac89",
             "content-type: application/x-www-form-urlencoded"
         ],
     ]);
